@@ -134,6 +134,7 @@ dmypy.json
 .pytype/
 
 # mine
+.DS_Store
 .ipynb_checkpoints/
 .vscode
 data/
