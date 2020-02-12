@@ -1,0 +1,23 @@
+conda create --name dlab
+conda activate dlab
+conda install python=3.7.0
+conda install -c anaconda jupyter
+conda install -c anaconda numpy
+conda install -c anaconda pandas
+conda install -c anaconda scikit-learn
+conda install -c conda-forge matplotlib
+conda install -c pytorch pytorch
+conda install -c conda-forge tensorflow
+conda install -c conda-forge tensorboard=1.15
+conda install -c conda-forge tensorflow-hub
+conda install -c anaconda nltk
+conda install -c conda-forge transformers
+conda install -c conda-forge tqdm
+conda install -c anaconda ipywidgets
+pip install plotly
+pip install cufflinks
+pip install bert-serving-client
+
+conda deactivate dlab
+pip3 install tensorflow==1.15
+pip3 install bert-serving-server

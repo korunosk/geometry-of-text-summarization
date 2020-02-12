@@ -1,0 +1,3 @@
+DATA_DIR = 'data'
+RUNS_DIR = 'runs'
+DATASETS = ['TAC2008', 'TAC2009']
