@@ -11,6 +11,7 @@ conda install -c conda-forge tensorflow
 conda install -c conda-forge tensorboard=1.15
 conda install -c conda-forge tensorflow-hub
 conda install -c anaconda nltk
+conda install -c anaconda gensim
 conda install -c conda-forge transformers
 conda install -c conda-forge tqdm
 conda install -c anaconda ipywidgets
