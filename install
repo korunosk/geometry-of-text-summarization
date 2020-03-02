@@ -15,9 +15,15 @@ conda install -c anaconda gensim
 conda install -c conda-forge transformers
 conda install -c conda-forge tqdm
 conda install -c anaconda ipywidgets
+conda install -c conda-forge pyemd
+conda install -c anaconda networkx
 pip install plotly
 pip install cufflinks
 pip install bert-serving-client
+
+# from https://github.com/crabcamp/lexrank
+# copy lexrank/lexrank.py and lexrank/algorithms/power_method.py
+# from lexrank.py we only need degree_centrality_scores()
 
 conda deactivate dlab
 pip3 install tensorflow==1.15
