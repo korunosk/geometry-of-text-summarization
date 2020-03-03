@@ -3,6 +3,7 @@ conda activate dlab
 conda install python=3.7.0
 conda install -c anaconda jupyter
 conda install -c anaconda numpy
+conda install -c anaconda scipy
 conda install -c anaconda pandas
 conda install -c anaconda scikit-learn
 conda install -c conda-forge matplotlib
@@ -16,10 +17,12 @@ conda install -c conda-forge transformers
 conda install -c conda-forge tqdm
 conda install -c anaconda ipywidgets
 conda install -c conda-forge pyemd
-conda install -c anaconda networkx
+conda install -c anaconda seaborn
+conda install -c conda-forge ijson
 pip install plotly
 pip install cufflinks
 pip install bert-serving-client
+pip install ray
 
 # from https://github.com/crabcamp/lexrank
 # copy lexrank/lexrank.py and lexrank/algorithms/power_method.py
