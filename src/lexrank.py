@@ -1,4 +1,4 @@
-from power_method import (
+from .power_method import (
     create_markov_matrix, create_markov_matrix_discrete,
     stationary_distribution,
 )
