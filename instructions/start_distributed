@@ -1,13 +1,13 @@
-# Create conda environment on a particular location
+### Create Conda environment on a particular location
 conda create --prefix /scratch/korunosk/conda-envs/dlab
 
-# Activate conda enviroment
+### Activate Conda environment from a particular location
 eval "$(conda shell.bash hook)"
 conda activate /scratch/korunosk/conda-envs/dlab
 
-# Installing conda kernel in jupyter
+### Installing Conda kernel in Jupyter
 python3 -m ipykernel install --user
 
-# Listing and removing kernels
+### Listing and removing kernels
 jupyter kernelspec list
 jupyter kernelspec uninstall [kernel]

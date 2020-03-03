@@ -1,3 +1,4 @@
+### Necessary Conda packages
 conda create --name dlab
 conda activate dlab
 conda install python=3.7.0
@@ -24,10 +25,12 @@ pip install cufflinks
 pip install bert-serving-client
 pip install ray
 
-# from https://github.com/crabcamp/lexrank
-# copy lexrank/lexrank.py and lexrank/algorithms/power_method.py
-# from lexrank.py we only need degree_centrality_scores()
+### Also -
+### from https://github.com/crabcamp/lexrank
+### copy lexrank/lexrank.py and lexrank/algorithms/power_method.py
+### from lexrank.py we only need degree_centrality_scores()
 
+### Others
 conda deactivate dlab
 pip3 install tensorflow==1.15
 pip3 install bert-serving-server
