@@ -67,7 +67,7 @@ def plot_corr(ax, topics, scores):
                width=w,
                label=scores[i]['label'])
     ax.set_xticks(x)
-    ax.set_xticklabels(topics, rotation=90)
+    ax.set_xticklabels(topics, rotation=45)
     ax.set_xlabel('Topic')
     ax.set_ylabel('Kendall tau')
     ax.legend()
