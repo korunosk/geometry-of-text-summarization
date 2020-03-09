@@ -1,6 +1,8 @@
 import os
 import json
+import numpy as np
 from operator import itemgetter
+from itertools import chain
 
 
 def load_data(data_dir, fname, encoded):
@@ -45,3 +47,18 @@ def make_tac(data, encode):
         tac[topic_id] = make_topic(topic, encode)
     
     return tac
+
+
+def extract(topic):
+    documents = np.array(list(chain(*topic['documents'])))
+    annotations = topic['annotations']
+
+    summaries_tmp = list(map(itemgetter('text'), annotations))
+    indices_tmp = np.cumsum([0] + list(map(len, summaries_tmp)))
+    summaries = np.array(list(chain(*summaries_tmp)))
+    indices = np.array(list(zip(indices_tmp[:-1], indices_tmp[1:])))
+    
+    pyr_scores = np.array(list(map(itemgetter('pyr_score'), annotations)))
+    summary_ids = np.array(list(map(itemgetter('summ_id'), annotations)))
+    
+    return documents, summaries, indices, pyr_scores, summary_ids
