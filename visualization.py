@@ -47,7 +47,7 @@ def plot_hull(proj, ax, title, document_pts, summary_pts):
     ax.set_ylabel(f'{proj}-1')
 
 
-def plot_corr(ax, topics, scores):
+def plot_corr_coeff(ax, topics, scores):
     def make_indices(w, n):
         if n % 2 == 0:
             idx = w * (np.arange(n//2) + 0.5)
@@ -71,3 +71,14 @@ def plot_corr(ax, topics, scores):
     ax.set_xlabel('Topic')
     ax.set_ylabel('Kendall tau')
     ax.legend()
+
+def plot_corr(ax, df, topic_id, m):
+    df_tmp = df[df.topic_id == topic_id]
+    x = df_tmp[m].values
+    y = df_tmp['pyr'].values
+    t = df_tmp['summ_id'].values
+    ax.scatter(x, y)
+    for i in range(df_tmp.shape[0]):
+        ax.annotate(t[i], (x[i]+0.1, y[i]))
+    ax.set_xlabel(m)
+    ax.set_ylabel('pyr')
