@@ -14,16 +14,15 @@ conda install -c conda-forge tensorboard=1.15
 conda install -c conda-forge tensorflow-hub
 conda install -c anaconda nltk
 conda install -c anaconda gensim
-conda install -c conda-forge transformers
 conda install -c conda-forge tqdm
 conda install -c anaconda ipywidgets
 conda install -c conda-forge pyemd
 conda install -c anaconda seaborn
-conda install -c conda-forge ijson
 pip install plotly
 pip install cufflinks
 pip install bert-serving-client
 pip install ray
+pip install orjson
 
 ### Also -
 ### from https://github.com/crabcamp/lexrank
