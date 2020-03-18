@@ -1,14 +1,21 @@
 import os
-import json
+import orjson
 import numpy as np
 from operator import itemgetter
 from itertools import chain
+import time
+import datetime
+
+
+def format_time(elapsed):
+    elapsed_rounded = int(round(elapsed))
+    return str(datetime.timedelta(seconds=elapsed_rounded))
 
 
 def load_data(data_dir, fname, encoded):
     ext = '_encoded.json' if encoded else '.json'
     with open(os.path.join(data_dir, fname + ext), mode='r') as fp:
-        return json.load(fp)
+        return orjson.loads(fp.read())
 
 
 def store_data(data_dir, fname, data):
@@ -50,15 +57,19 @@ def make_tac(data, encode):
 
 
 def extract(topic):
-    documents = np.array(list(chain(*topic['documents'])))
+    documents = list(chain(*topic['documents']))
     annotations = topic['annotations']
-
-    summaries_tmp = list(map(itemgetter('text'), annotations))
-    indices_tmp = np.cumsum([0] + list(map(len, summaries_tmp)))
-    summaries = np.array(list(chain(*summaries_tmp)))
-    indices = np.array(list(zip(indices_tmp[:-1], indices_tmp[1:])))
     
-    pyr_scores = np.array(list(map(itemgetter('pyr_score'), annotations)))
-    summary_ids = np.array(list(map(itemgetter('summ_id'), annotations)))
+    summary_ids = [annotations[0]['summ_id']]
+    pyr_scores = [annotations[0]['pyr_score']]
+    summaries = annotations[0]['text']
+    indices = [[0, len(summaries)]]
+    
+    for o in annotations[1:]:
+        summary_ids.append(o['summ_id'])
+        pyr_scores.append(o['pyr_score'])
+        summaries.extend(o['text'])
+        start = indices[-1][1]
+        indices.append([start, start + len(o['text'])])
     
     return documents, summaries, indices, pyr_scores, summary_ids
