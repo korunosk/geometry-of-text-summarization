@@ -75,10 +75,10 @@ def plot_corr_coeff(ax, topics, scores):
 def plot_corr(ax, df, topic_id, m):
     df_tmp = df[df.topic_id == topic_id]
     x = df_tmp[m].values
-    y = df_tmp['pyr'].values
+    y = df_tmp['pyr_score'].values
     t = df_tmp['summ_id'].values
     ax.scatter(x, y)
     for i in range(df_tmp.shape[0]):
         ax.annotate(t[i], (x[i]+0.1, y[i]))
     ax.set_xlabel(m)
-    ax.set_ylabel('pyr')
+    ax.set_ylabel('pyr_score')
