@@ -1,11 +1,14 @@
 import numpy as np
 from scipy.spatial.distance import cdist
-from pyemd import emd_samples
+import ot
 
 
-def earth_mover_distance(document_embs: np.array, summary_embs: np.array) -> float:
-    '''Calculates the Earth Mover distance between the document and summary distributions.'''
-    return emd_samples(document_embs, summary_embs)
+def word_mover_distance(document_embs: np.array, summary_embs: np.array, document_hist) -> float:
+        '''Calculates the Word Mover distance between the document and summary distributions.'''
+        summary_hist = []
+        # summary_hist = np.empty(summary_embs.shape[0])
+        # summary_hist.fill(1 / summary_embs.shape[0])
+        return ot.emd2(document_hist, summary_hist, cdist(document_embs, summary_embs))
 
 
 def lex_rank(document_embs: np.array, summary_embs: np.array, lr_scores: np.array) -> float:
