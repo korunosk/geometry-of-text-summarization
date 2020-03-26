@@ -20,8 +20,8 @@ def make_pytorch_projector(log_dir, embeddings, global_step):
     writer.close()
 
 
-def project_pca(embs, t):
-    pca = PCA(n_components=2, random_state=42)
+def project_pca(embs, t, n_components=2):
+    pca = PCA(n_components=n_components, random_state=42)
     pts = pca.fit_transform(embs)
     return pts[:t], pts[t:]
 
