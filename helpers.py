@@ -1,4 +1,5 @@
 import os
+import json
 import orjson
 import numpy as np
 from operator import itemgetter
@@ -10,6 +11,15 @@ import datetime
 def format_time(elapsed):
     elapsed_rounded = int(round(elapsed))
     return str(datetime.timedelta(seconds=elapsed_rounded))
+
+
+def load_embeddings(embeddings_path):
+    with open(embeddings_path + '.vocab', mode='r') as fp:
+        vocab = { line.strip(): i for i, line in enumerate(fp.readlines()) }
+ 
+    embs = np.load(embeddings_path + '.npy', allow_pickle=True)
+    
+    return vocab, embs
 
 
 def load_data(data_dir, fname, encoded):
@@ -48,11 +58,9 @@ def make_topic(topic, encode):
 
 def make_tac(data, encode):
     tac = {}
-
     for topic_id, topic in data.items():
-        print('  ', topic_id)
+        print('   {}'.format(topic_id))
         tac[topic_id] = make_topic(topic, encode)
-    
     return tac
 
 
