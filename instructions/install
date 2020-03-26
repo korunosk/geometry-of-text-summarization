@@ -18,6 +18,7 @@ conda install -c conda-forge tqdm
 conda install -c anaconda ipywidgets
 conda install -c conda-forge pyemd
 conda install -c anaconda seaborn
+conda install -c conda-forge pot
 pip install plotly
 pip install cufflinks
 pip install bert-serving-client
