@@ -9,6 +9,7 @@ conda install -c anaconda pandas
 conda install -c anaconda scikit-learn
 conda install -c conda-forge matplotlib
 conda install -c pytorch pytorch
+conda install -c pytorch torchvision
 conda install -c conda-forge tensorflow
 conda install -c conda-forge tensorboard=1.15
 conda install -c conda-forge tensorflow-hub
@@ -24,11 +25,19 @@ pip install cufflinks
 pip install bert-serving-client
 pip install ray
 pip install orjson
+pip install geomloss
 
 ### Also -
+### 1.
 ### from https://github.com/crabcamp/lexrank
 ### copy lexrank/lexrank.py and lexrank/algorithms/power_method.py
 ### from lexrank.py we only need degree_centrality_scores()
+### 2.
+### from https://github.com/gpeyre/SinkhornAutoDiff
+### copy silkhorn_pointcloud.py
+### 3.
+### from https://github.com/dfdazac/wassdistance
+### copy layers.py
 
 ### Others
 conda deactivate dlab
