@@ -32,7 +32,14 @@ def project_tsne(embs, t):
     return pts[:t], pts[t:]
 
 
-def plot_hull(proj, ax, title, document_pts, summary_pts):
+def plot_hull(ax, title, proj, document_pts, summary_pts):
+    '''
+    :param ax:              Axes containing the subplot
+    :param title:           Title of the subplot
+    :param proj:            Projection type for labeling the x- and y- axis
+    :param document_pts:    Projected document points
+    :param summary_pts:     Projected summary points
+    '''
     def plot_pts(pts, c, alpha):
         ax.scatter(pts[:,0], pts[:,1], c=c, alpha=alpha)
         hull = ConvexHull(pts)
