@@ -80,15 +80,15 @@ def plot_corr_coeff(ax, topics, scores):
     ax.legend()
 
 def plot_corr(ax, df, topic_id, m):
-    df_tmp = df[df.topic_id == topic_id]
+    df_tmp = df[df['Topic ID'] == topic_id]
     x = df_tmp[m].values
-    y = df_tmp['pyr_score'].values
-    t = df_tmp['summ_id'].values
+    y = df_tmp['Pyramid Score'].values
+    t = df_tmp['Summary ID'].values
     ax.scatter(x, y)
     for i in range(df_tmp.shape[0]):
         ax.annotate(t[i], (x[i]+0.1, y[i]))
     ax.set_xlabel(m)
-    ax.set_ylabel('Pyramid score')
+    ax.set_ylabel('Pyramid Score')
 
 def plot_loss(ax, loss):
     ax.plot(loss)
