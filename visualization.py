@@ -91,9 +91,6 @@ def plot_corr(ax, df, topic_id, m):
     ax.set_ylabel('Pyramid score')
 
 def plot_loss(loss):
-    fig = plt.figure(figsize=(10,5))
-    ax = fig.add_subplot(1,1,1)
     ax.plot(loss)
     ax.set_ylabel('Loss')
     ax.set_xlabel('Iteration')
-    plt.show()
