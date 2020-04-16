@@ -65,7 +65,7 @@ def plot_corr_coeff(ax, topics, scores):
         return idx
 
     n = len(scores)
-    w = 0.8 / n
+    w = 0.8 / 3 # n - there won't be more than 3
     x = np.arange(len(topics))
     idx = make_indices(w, n)
     for i in range(n): 
@@ -88,4 +88,12 @@ def plot_corr(ax, df, topic_id, m):
     for i in range(df_tmp.shape[0]):
         ax.annotate(t[i], (x[i]+0.1, y[i]))
     ax.set_xlabel(m)
-    ax.set_ylabel('pyr_score')
+    ax.set_ylabel('Pyramid score')
+
+def plot_loss(ax, loss):
+    fig = plt.figure(figsize=(10,5))
+    ax = fig.add_subplot(1,1,1)
+    ax.plot(loss)
+    ax.set_ylabel('Loss')
+    ax.set_xlabel('Iteration')
+    plt.show()
