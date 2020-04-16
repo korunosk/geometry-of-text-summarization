@@ -90,7 +90,7 @@ def plot_corr(ax, df, topic_id, m):
     ax.set_xlabel(m)
     ax.set_ylabel('Pyramid score')
 
-def plot_loss(loss):
+def plot_loss(ax, loss):
     ax.plot(loss)
     ax.set_ylabel('Loss')
     ax.set_xlabel('Iteration')
