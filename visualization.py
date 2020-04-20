@@ -77,7 +77,8 @@ def plot_corr_coeff(ax, topics, scores):
     ax.set_xticklabels(topics, rotation=45)
     ax.set_xlabel('Topic')
     ax.set_ylabel('Kendall tau')
-    ax.legend()
+    ax.legend(loc='upper right')
+    ax.grid()
 
 def plot_corr(ax, df, topic_id, m):
     df_tmp = df[df['Topic ID'] == topic_id]
