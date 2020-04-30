@@ -70,10 +70,10 @@ class NeuralNetScoringPRModel(nn.Module):
 
 
 class NeuralNetScoringPREmbModel(nn.Module):
-    def __init__(self, config):
+    def __init__(self, num_emb, config):
         super(NeuralNetScoringPREmbModel, self).__init__()
         self.config = config
-        self.emb = nn.Embedding(self.config['num_emb'], self.config['emb_dim'])
+        self.emb = nn.Embedding(num_emb, self.config['emb_dim'])
         self.layer1 = nn.Linear(self.config['D_in'], self.config['H'])
         self.layer2 = nn.Linear(self.config['H'], 1)
         self.sigm = nn.Sigmoid()
