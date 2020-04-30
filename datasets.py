@@ -3,7 +3,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.parsing.preprocessing import preprocess_documents
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 from sklearn.preprocessing import normalize
 
 from helpers import load_data, extract

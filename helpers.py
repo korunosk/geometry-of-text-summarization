@@ -3,7 +3,7 @@ import json
 import orjson
 import numpy as np
 from operator import itemgetter
-from itertools import chain
+from itertools import chain, product
 import time
 import datetime
 
