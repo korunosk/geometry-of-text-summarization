@@ -57,8 +57,8 @@ class NeuralNetScoringPRModel(nn.Module):
     
     def predict(self, d, si):
         a0 = torch.cat((d, si), axis=0)
-        z0 = self.layer1(a0)
-        a1 = F.relu(z0)
+        z1 = self.layer1(a0)
+        a1 = F.relu(z1)
         return self.layer2(a1)
     
     def score(self, d, s):
@@ -85,10 +85,10 @@ class NeuralNetScoringPREmbModel(nn.Module):
         from_table = lambda w: self.emb(torch.tensor([w])).mean(axis=0)
         return torch.cat(list(map(from_table, d)), axis=0)
         
-    def predict(self, d, s):
-        a0 = torch.cat((d, s), axis=0)
-        z0 = self.layer1(a0)
-        a1 = F.relu(z0)
+    def predict(self, d, si):
+        a0 = torch.cat((d, si), axis=0)
+        z1 = self.layer1(a0)
+        a1 = F.relu(z1)
         return self.layer2(a1)
     
     def forward(self, d, s1, s2):
