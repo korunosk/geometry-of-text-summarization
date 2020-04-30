@@ -1,4 +1,4 @@
-config = {
+CONFIG_MODELS = {
     'TransformSinkhornRegModel': {
         'D_in': 768,
         'D_out': 768,
@@ -33,7 +33,7 @@ config = {
         'D_in': 1536,
         'H': 3072,
         'scaling_factor': 1,
-        'learning_rate': 1e-4,
+        'learning_rate': 1e-2,
         'batch_size': 100
     },
     'NeuralNetScoringPREmbModel': {
@@ -41,7 +41,7 @@ config = {
         'D_in': 1536,
         'H': 3072,
         'scaling_factor': 1,
-        'learning_rate': 1e-4,
+        'learning_rate': 1e-2,
         'batch_size': 100
     }
 }
