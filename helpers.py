@@ -117,3 +117,56 @@ def make_vectorizer(sentences: list) -> CountVectorizer:
     vectorizer = CountVectorizer(analyzer='word', ngram_range=(2,2), stop_words=list(STOPWORDS))
     vectorizer.fit(sentences)
     return vectorizer
+
+
+def make_tuples_data_for_regression(embeddings_dir, dataset_id: str, topic_id: str) -> list:
+    ''' Generates data for regression in the form:
+    
+    (topic_id: str, i: int), where:
+    
+    topic_id - the topic ID
+    i        - index of the summary
+    y        - pyramid score
+
+    :param dataset_id: Dataset ID to fetch data from
+    :param topic_id:   Topic ID
+    :return:           Tuples data
+    '''
+    topic = load_data(os.path.join(embeddings_dir, dataset_id), topic_id, encoded=True)
+    _, _, _, pyr_scores, _ = extract(topic)
+    
+    data = []
+    n = len(pyr_scores)
+    for i in range(n):
+        y = pyr_scores[i]
+        data.append((topic_id, i, y))
+    
+    return data
+
+
+def make_tuples_data_for_classification(embeddings_dir, dataset_id: str, topic_id: str) -> list:
+    ''' Generates data for classification in the form:
+    
+    (topic_id: str, i1: int, i2: int, y: int), where:
+    
+    topic_id - the topic ID
+    i1       - index of the first summary
+    i2       - index of the second summary
+    y        - {0,1} indicator variable, whether pyramid[i1] > pyramid[i2]
+
+    :param dataset_id: Dataset ID to fetch data from
+    :param topic_id:   Topic ID
+    :return:           Tuples data
+    '''
+    topic = load_data(os.path.join(embeddings_dir, dataset_id), topic_id, encoded=True)
+    _, _, _, pyr_scores, _ = extract(topic)
+    
+    data = []
+    n = len(pyr_scores)
+    for i1, i2 in product(range(n), range(n)):
+        if i1 == i2:
+            continue
+        y = int(pyr_scores[i1] > pyr_scores[i2])
+        data.append((topic_id, i1, i2, y))
+    
+    return data
