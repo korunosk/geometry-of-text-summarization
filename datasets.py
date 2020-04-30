@@ -31,7 +31,7 @@ class TACDataset(Dataset):
     
     def _load_item(self, topic_id, item):
         self.topic_id = topic_id
-        directory = os.path.join(self.base_data_dir, self.dataset_id, self.topic_id, item)
+        directory = os.path.join(self.embeddings_dir, self.dataset_id, self.topic_id, item)
         return np.load(directory)
 
     def __init__(self, base_data_dir, embeddings_dir, dataset_id, data, encoded):
