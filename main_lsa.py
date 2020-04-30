@@ -1,3 +1,5 @@
+import os
+import numpy as np
 from sklearn.utils.extmath import randomized_svd
 
 from config import *

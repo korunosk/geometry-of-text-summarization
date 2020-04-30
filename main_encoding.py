@@ -14,7 +14,7 @@ if __name__ == '__main__':
     vocab, embs = load_embeddings(os.path.join(EMBEDDINGS_DIR, 'tac-100d'))
     
     # LSA
-    sentences = read_sentences(BASE_DATA_DIR, TOPIC_IDS, DATASET_IDS)
+    sentences = read_sentences(BASE_DATA_DIR, DATASET_IDS, TOPIC_IDS)
     vectorizer = make_vectorizer(sentences)
 
     encode = lambda documents: encode_bigrams_lsa(documents, vocab, embs, vectorizer=vectorizer)
