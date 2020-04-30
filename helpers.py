@@ -7,6 +7,8 @@ from itertools import chain
 import time
 import datetime
 
+from sklearn.feature_extraction.text import CountVectorizer
+
 
 def format_time(elapsed):
     elapsed_rounded = int(round(elapsed))
@@ -81,3 +83,37 @@ def extract(topic):
         indices.append([start, start + len(o['text'])])
     
     return documents, summaries, indices, pyr_scores, summary_ids
+
+
+def read_sentences(data_dir, dataset_ids, topic_ids) -> list:
+    ''' Reads all the sentences from all topics and
+    returns a list of them.
+    
+    :return: Sentences
+    '''
+    sentences = []
+
+    for dataset_id in dataset_ids:
+        print(dataset_id)
+        dataset = load_data(data_dir, dataset_id, encoded=False)
+
+        for topic_id in topic_ids[dataset_id]:
+            documents, _, _, _, _ = extract(dataset[topic_id])
+
+            sentences.extend(documents)
+    
+    return sentences
+
+
+def make_vectorizer(sentences: list) -> CountVectorizer:
+    ''' Factory method for generating count vectorizer.
+    The same initialization is used in several places.
+    
+    :param sentences: Sentences to vectorize
+    
+    :return: Count vectorizer
+    '''
+    from gensim.parsing.preprocessing import STOPWORDS
+    vectorizer = CountVectorizer(analyzer='word', ngram_range=(2,2), stop_words=list(STOPWORDS))
+    vectorizer.fit(sentences)
+    return vectorizer

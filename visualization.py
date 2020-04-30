@@ -80,6 +80,7 @@ def plot_corr_coeff(ax, topics, scores):
     ax.legend(loc='upper right')
     ax.grid()
 
+
 def plot_corr(ax, df, topic_id, m):
     df_tmp = df[df['Topic ID'] == topic_id]
     x = df_tmp[m].values
@@ -90,6 +91,7 @@ def plot_corr(ax, df, topic_id, m):
         ax.annotate(t[i], (x[i]+0.1, y[i]))
     ax.set_xlabel(m)
     ax.set_ylabel('Pyramid Score')
+
 
 def plot_loss(ax, loss):
     ax.plot(loss)
