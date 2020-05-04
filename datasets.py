@@ -55,7 +55,6 @@ class TACDatasetRegression(TACDataset):
     def __getitem__(self, idx):
         ''' Loads data randomly. '''
         topic_id = self.data[idx][0]
-        print(topic_id)
         
         i = int(self.data[idx][1])
         x = (self._load_item(topic_id, 'document_embs.npy'),
@@ -74,7 +73,6 @@ class TACDatasetClassification(TACDataset):
     def __getitem__(self, idx):
         ''' Loads data randomly. '''
         topic_id = self.data[idx][0]
-        print(topic_id)
         
         i1 = int(self.data[idx][1])
         i2 = int(self.data[idx][2])
@@ -93,8 +91,7 @@ class TACDatasetClassificationScoring(TACDataset):
 
     def __init__(self, base_data_dir, embeddings_dir, dataset_id, data):
         super().__init__(base_data_dir, embeddings_dir, dataset_id, data, encoded=False)
-
-        np.random.shuffle(data)
+        self._load_topic(self.data[0][0])
     
     def doc2idx(self, document):
         # filter-out sentences that do not have words in the dictionary
@@ -102,17 +99,16 @@ class TACDatasetClassificationScoring(TACDataset):
     
     def num_nnz(self):
         return self.dct.num_nnz
-
+    
     def __getitem__(self, idx):
-        ''' Loads data randomly. '''
-        topic_id = self.data[idx][0]
-        print(topic_id)
+        ''' Loads data sequentially. '''
+        self._load_topic(self.data[idx][0])
         
-        i1 = int(self.data[idx][1])
-        i2 = int(self.data[idx][2])
-        x = (self.doc2idx(self._load_item(topic_id, 'document.npy')),
-             self.doc2idx(self._load_item(topic_id, f'summary_{i1}.npy')),
-             self.doc2idx(self._load_item(topic_id, f'summary_{i2}.npy')))
+        i1 = self.indices[int(self.data[idx][1])]
+        i2 = self.indices[int(self.data[idx][2])]
+        x = (self.doc2idx(self.documents),
+             self.doc2idx(self.summaries[i1[0]:i1[1]]),
+             self.doc2idx(self.summaries[i2[0]:i2[1]]))
         y = float(self.data[idx][3])
         
         return (x, y)
