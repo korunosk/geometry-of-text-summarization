@@ -55,44 +55,45 @@ class NeuralNetScoringPRModel(nn.Module):
         self.layer2 = nn.Linear(self.config['H'], 1)
         self.sigm = nn.Sigmoid()
     
-    def predict(self, d, si):
-        a0 = torch.cat((d, si), axis=0)
-        z1 = self.layer1(a0)
-        a1 = F.relu(z1)
-        return self.layer2(a1)
+    def predict(self, x):
+        return self.layer2(F.relu(self.layer1(x)))
     
     def score(self, d, s):
-        return sum([self.predict(d, si) for si in s]).squeeze()
+        n = s.shape[0]
+        d = d.mean(axis=0).repeat(n, 1)
+        x = torch.cat((d, s), axis=1)
+        return torch.sum(self.predict(x))
     
     def forward(self, d, s1, s2):
-        d = d.mean(axis=0)
-        return self.sigm(self.config['scaling_factor'] * (self.score(d, s1) - self.score(d, s2)))
+        score1 = self.score(d, s1)
+        score2 = self.score(d, s2)
+        return self.sigm(self.config['scaling_factor'] * (score1 - score2))
 
 
-class NeuralNetScoringPREmbModel(nn.Module):
-    def __init__(self, num_emb, config):
-        super(NeuralNetScoringPREmbModel, self).__init__()
-        self.config = config
-        self.emb = nn.Embedding(num_emb, self.config['emb_dim'])
-        self.layer1 = nn.Linear(self.config['D_in'], self.config['H'])
-        self.layer2 = nn.Linear(self.config['H'], 1)
-        self.sigm = nn.Sigmoid()
+# class NeuralNetScoringPREmbModel(nn.Module):
+#     def __init__(self, num_emb, config):
+#         super(NeuralNetScoringPREmbModel, self).__init__()
+#         self.config = config
+#         self.emb = nn.Embedding(num_emb, self.config['emb_dim'])
+#         self.layer1 = nn.Linear(self.config['D_in'], self.config['H'])
+#         self.layer2 = nn.Linear(self.config['H'], 1)
+#         self.sigm = nn.Sigmoid()
     
-    def score(self, d, s):
-        return sum([self.predict(d, si) for si in s]).squeeze()
+#     def score(self, d, s):
+#         return sum([self.predict(d, si) for si in s]).squeeze()
     
-    def embed(self, d):
-        from_table = lambda w: self.emb(torch.tensor([w])).mean(axis=0)
-        return torch.cat(list(map(from_table, d)), axis=0)
+#     def embed(self, d):
+#         from_table = lambda w: self.emb(torch.tensor([w])).mean(axis=0)
+#         return torch.cat(list(map(from_table, d)), axis=0)
         
-    def predict(self, d, si):
-        a0 = torch.cat((d, si), axis=0)
-        z1 = self.layer1(a0)
-        a1 = F.relu(z1)
-        return self.layer2(a1)
+#     def predict(self, d, si):
+#         a0 = torch.cat((d, si), axis=0)
+#         z1 = self.layer1(a0)
+#         a1 = F.relu(z1)
+#         return self.layer2(a1)
     
-    def forward(self, d, s1, s2):
-        d  = self.embed(d).mean(axis=0)
-        s1 = self.embed(s1)
-        s2 = self.embed(s2)
-        return self.sigm(self.config['scaling_factor'] * (self.score(d, s1) - self.score(d, s2)))
+#     def forward(self, d, s1, s2):
+#         d  = self.embed(d).mean(axis=0)
+#         s1 = self.embed(s1)
+#         s2 = self.embed(s2)
+#         return self.sigm(self.config['scaling_factor'] * (self.score(d, s1) - self.score(d, s2)))

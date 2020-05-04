@@ -31,7 +31,7 @@ CONFIG_MODELS = {
     'NeuralNetScoringPRModel': {
         'emb_dim': 768,
         'D_in': 1536,
-        'H': 3072,
+        'H': 1536,
         'scaling_factor': 1,
         'learning_rate': 1e-2,
         'batch_size': 100
@@ -39,7 +39,7 @@ CONFIG_MODELS = {
     'NeuralNetScoringPREmbModel': {
         'emb_dim': 768,
         'D_in': 1536,
-        'H': 3072,
+        'H': 1536,
         'scaling_factor': 1,
         'learning_rate': 1e-2,
         'batch_size': 100
