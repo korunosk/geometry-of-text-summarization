@@ -29,7 +29,6 @@ CONFIG_MODELS = {
         'batch_size': 100
     },
     'NeuralNetScoringPRModel': {
-        'emb_dim': 768,
         'D_in': 1536,
         'H': 1536,
         'scaling_factor': 1,
