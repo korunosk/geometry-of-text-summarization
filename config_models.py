@@ -32,7 +32,7 @@ CONFIG_MODELS = {
         'D_in': 1536,
         'H': 1536,
         'scaling_factor': 1,
-        'learning_rate': 1e-2,
+        'learning_rate': 1e-4,
         'batch_size': 100
     },
     'NeuralNetScoringPREmbModel': {
@@ -40,7 +40,7 @@ CONFIG_MODELS = {
         'D_in': 1536,
         'H': 1536,
         'scaling_factor': 1,
-        'learning_rate': 1e-2,
+        'learning_rate': 1e-4,
         'batch_size': 100
     }
 }
