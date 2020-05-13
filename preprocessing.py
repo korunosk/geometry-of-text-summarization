@@ -11,7 +11,7 @@ def stratified_sampling(data, test_size=0.3):
 
 
 def leave_n_out(data, test_size=0.3):
-    topics = np.unique(data[:,0])
+    topics = np.unique(data[:,0]) # sorts the data
     n = int(test_size * len(topics))
     train_topics = topics[:-n]
     test_topics = topics[-n:]

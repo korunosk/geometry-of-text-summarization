@@ -84,36 +84,6 @@ class TACDatasetClassification(TACDataset):
         return (x, y)
 
 
-class TACDatasetClassificationScoring(TACDataset):
-    def _load_topic(self, topic_id):
-        super()._load_topic(topic_id)
-        self.dct = Dictionary(preprocess_documents(self.documents + self.summaries))
-
-    def __init__(self, base_data_dir, embeddings_dir, dataset_id, data):
-        super().__init__(base_data_dir, embeddings_dir, dataset_id, data, encoded=False)
-        self._load_topic(self.data[0][0])
-    
-    def doc2idx(self, document):
-        # filter-out sentences that do not have words in the dictionary
-        return list(filter(len, map(self.dct.doc2idx, preprocess_documents(document))))
-    
-    def num_nnz(self):
-        return self.dct.num_nnz
-    
-    def __getitem__(self, idx):
-        ''' Loads data sequentially. '''
-        self._load_topic(self.data[idx][0])
-        
-        i1 = self.indices[int(self.data[idx][1])]
-        i2 = self.indices[int(self.data[idx][2])]
-        x = (self.doc2idx(self.documents),
-             self.doc2idx(self.summaries[i1[0]:i1[1]]),
-             self.doc2idx(self.summaries[i2[0]:i2[1]]))
-        y = float(self.data[idx][3])
-        
-        return (x, y)
-
-
 class Normalize():
     def __call__(self, sample):
         x, y = sample
@@ -123,4 +93,4 @@ class Normalize():
 class ToTensor():
     def __call__(self, sample):
         x, y = sample
-        return (tuple(torch.tensor(x_i) for x_i in x), torch.tensor(y))
+        return (tuple(torch.tensor(x_i, dtype=torch.float) for x_i in x), torch.tensor(y, dtype=torch.float))
