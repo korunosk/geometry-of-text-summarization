@@ -36,3 +36,7 @@ EMBEDDING_METS = [
     'BERT_word',
     'BERT_sent'
 ]
+
+PLOTS_DIR = 'plots'
+
+MODELS_DIR = 'models'
