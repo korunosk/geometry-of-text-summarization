@@ -12,7 +12,6 @@ class TransformSinkhornRegModel(nn.Module):
     def load(fname, config):
         model = TransformSinkhornRegModel(config)
         model.load_state_dict(torch.load(os.path.join(MODELS_DIR, fname)))
-        model.eval()
         return model
 
     def save(self, fname):
@@ -40,7 +39,6 @@ class TransformSinkhornPRModel(nn.Module):
     def load(fname, config):
         model = TransformSinkhornPRModel(config)
         model.load_state_dict(torch.load(os.path.join(MODELS_DIR, fname)))
-        model.eval()
         return model
 
     def save(self, fname):
@@ -71,7 +69,6 @@ class NeuralNetSinkhornPRModel(nn.Module):
     def load(fname, config):
         model = NeuralNetSinkhornPRModel(config)
         model.load_state_dict(torch.load(os.path.join(MODELS_DIR, fname)))
-        model.eval()
         return model
 
     def save(self, fname):
@@ -102,7 +99,6 @@ class NeuralNetScoringPRModel(nn.Module):
     def load(fname, config):
         model = NeuralNetScoringPRModel(config)
         model.load_state_dict(torch.load(os.path.join(MODELS_DIR, fname)))
-        model.eval()
         return model
 
     def save(self, fname):
