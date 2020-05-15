@@ -52,6 +52,17 @@ class TACDatasetRegression(TACDataset):
 
         np.random.shuffle(data)
 
+#     def __getitem__(self, idx):
+#         ''' Loads data sequentially. '''
+#         self._load_topic(self.data[idx][0])
+        
+#         i = self.indices[int(self.data[idx][1])]
+#         x = (self.documents,
+#              self.summaries[i[0]:i[1]]),
+#         y = float(self.data[idx][3])
+        
+#         return (x, y)
+
     def __getitem__(self, idx):
         ''' Loads data randomly. '''
         topic_id = self.data[idx][0]
