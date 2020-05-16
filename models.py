@@ -125,3 +125,31 @@ class NeuralNetScoringPRModel(nn.Module):
         score1 = self.predict(d, s1)
         score2 = self.predict(d, s2)
         return self.sigm(self.config['scaling_factor'] * (score1 - score2))
+
+
+class NeuralNetRougeRegModel(nn.Module):
+
+    @staticmethod
+    def load(fname, config):
+        model = NeuralNetRougeRegModel(config)
+        model.load_state_dict(torch.load(os.path.join(MODELS_DIR, fname)))
+        model.eval()
+        return model
+
+    def save(self, fname):
+        torch.save(self.state_dict(), os.path.join(MODELS_DIR, fname))
+
+    def __init__(self, config):
+        super(NeuralNetRougeRegModel, self).__init__()
+        self.config = config
+        self.sinkhorn = SamplesLoss(loss='sinkhorn', p=self.config['p'], blur=self.config['blur'], scaling=self.config['scaling'])
+        self.layer = nn.Linear(self.config['D_in'], self.config['D_out'])
+
+    def transform(self, x):
+        return F.relu(self.layer(x))
+
+    def predict(self, d, s):
+        return self.sinkhorn(self.transform(d), self.transform(s))
+
+    def forward(self, sent):
+        return torch.norm(self.transform(sent), p=2, dim=1)
