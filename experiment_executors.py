@@ -19,6 +19,22 @@ from redundancy import *
 from relevance import *
 
 
+models = [
+    NeuralNetRougeRegModel.load('neural_net_rouge_reg_model.pt', CONFIG_MODELS['NeuralNetRougeRegModel']),
+    NeuralNetSinkhornPRModel.load('neural_net_sinkhorn_pr_model.pt', CONFIG_MODELS['NeuralNetSinkhornPRModel']),
+    NeuralNetScoringPRModel.load('neural_net_scoring_pr_model.pt', CONFIG_MODELS['NeuralNetScoringPRModel']),
+]
+
+
+# def transform(x):
+#     return models[2].transform(
+#         torch.tensor(x, dtype=torch.float)
+#     ).data.numpy().tolist()
+
+def transform(x):
+    return x
+
+
 class MetricsExperimentExecutor():
     ''' This class serves as experiment executor for the proposed metrics. '''
     
@@ -70,7 +86,10 @@ class MetricsExperimentExecutor():
         :return: Tuple as recieved from extract()
         '''
         topic = load_data(data_dir, topic_id, encoded=True)
-        return extract(topic)
+        document_embs, summary_embs, indices, pyr_scores, summary_ids = extract(topic)
+        document_embs = transform(document_embs)
+        summary_embs = transform(summary_embs)
+        return document_embs, summary_embs, indices, pyr_scores, summary_ids
     
     @staticmethod
     @ray.remote
@@ -113,6 +132,20 @@ class MetricsExperimentExecutor():
         lr_scores = degree_centrality_scores(cdist(document_embs, document_embs, metric='cosine'))
         metric = lambda i: lex_rank(document_embs, np.array(summary_embs[i[0]:i[1]]), lr_scores)
         return kendalltau(pyr_scores, np.array([metric(i) for i in indices]))[0]
+    
+    @staticmethod
+    @ray.remote
+    def experiment_combination(data: tuple) -> float:
+        document_embs, summary_embs, indices, pyr_score, summary_ids = data
+        document_embs = np.array(document_embs)
+        metric_1 = lambda i: semantic_spread(np.array(summary_embs[i[0]:i[1]]))
+        scores_1 = np.array([metric_1(i) for i in indices])
+        lr_scores = degree_centrality_scores(cdist(document_embs, document_embs, metric='cosine'))
+        metric_2 = lambda i: lex_rank(document_embs, np.array(summary_embs[i[0]:i[1]]), lr_scores)
+        scores_2 = np.array([metric_2(i) for i in indices])
+        alpha = 0.5
+        scores = (1 - alpha) * scores_1 + alpha * scores_2
+        return kendalltau(pyr_scores, scores)[0]
     
     def __execute_experiment(self, experiment: Callable) -> np.array:
         ''' Main method that executes an experiment.
