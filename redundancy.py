@@ -1,3 +1,5 @@
+# REDUNDANCY METRICS
+
 import numpy as np
 from scipy.spatial import ConvexHull
 from scipy.spatial.qhull import QhullError

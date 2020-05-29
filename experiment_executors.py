@@ -1,3 +1,6 @@
+# Main class for executing experiments using the
+# baseline metrics.
+
 import os
 import time
 import numpy as np
@@ -19,12 +22,20 @@ from redundancy import *
 from relevance import *
 
 
+# Load the relevant models from disk.
 models = [
     NeuralNetRougeRegModel.load('neural_net_rouge_reg_model.pt', CONFIG_MODELS['NeuralNetRougeRegModel']),
     NeuralNetSinkhornPRModel.load('neural_net_sinkhorn_pr_model.pt', CONFIG_MODELS['NeuralNetSinkhornPRModel']),
     NeuralNetScoringPRModel.load('neural_net_scoring_pr_model.pt', CONFIG_MODELS['NeuralNetScoringPRModel']),
 ]
 
+
+# The following functions transform the data before
+# executing the experiments.
+# The first one uses one of the models loaded above.
+# The second one just returns the original data. We can use
+# this one when we want to check the correlation of the baseline
+# metrics when the space is unmodified.
 
 # def transform(x):
 #     return models[2].transform(

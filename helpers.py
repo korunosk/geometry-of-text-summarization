@@ -1,3 +1,5 @@
+# Helper methods
+
 import os
 import json
 import orjson
@@ -11,11 +13,15 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 
 def format_time(elapsed):
+    ''' Formats timestamp to more human friendly format '''
     elapsed_rounded = int(round(elapsed))
     return str(datetime.timedelta(seconds=elapsed_rounded))
 
 
 def load_embeddings(embeddings_path):
+    ''' Loads embeddings from disk.
+    Ex. we can load fasttext and GloVe pretrained embeddings.
+    '''
     with open(embeddings_path + '.vocab', mode='r') as fp:
         vocab = { line.strip(): i for i, line in enumerate(fp.readlines()) }
  
@@ -25,17 +31,20 @@ def load_embeddings(embeddings_path):
 
 
 def load_data(data_dir, fname, encoded):
+    ''' Main method that loads topic data either encoded or not '''
     ext = '_encoded.json' if encoded else '.json'
     with open(os.path.join(data_dir, fname + ext), mode='r') as fp:
         return orjson.loads(fp.read())
 
 
 def store_data(data_dir, fname, data):
+    ''' Main method that stores encoded topic data '''
     with open(os.path.join(data_dir, fname + '_encoded.json'), mode='w') as fp:
         json.dump(data, fp, indent=4)
 
 
 def make_annotations(summ_ids, pyr_scores, embeddings):
+    ''' Utility function that joins the embedded annotations '''
     # Keep the format for easier parsing of different files
     return [ {
         'summ_id': summ_id,
@@ -45,6 +54,7 @@ def make_annotations(summ_ids, pyr_scores, embeddings):
 
 
 def make_topic(topic, encode):
+    ''' Embeds all topic data '''
     documents = topic['documents']
     annotations = topic['annotations']
 
@@ -59,6 +69,7 @@ def make_topic(topic, encode):
 
 
 def make_tac(data, encode):
+    ''' Embedds all topics from TAC dataset '''
     tac = {}
     for topic_id, topic in data.items():
         print('   {}'.format(topic_id))
@@ -67,6 +78,7 @@ def make_tac(data, encode):
 
 
 def extract(topic):
+    ''' Extracts data from the provided topic '''
     documents = list(chain(*topic['documents']))
     annotations = topic['annotations']
     
@@ -75,6 +87,8 @@ def extract(topic):
     summaries = annotations[0]['text']
     indices = [[0, len(summaries)]]
     
+    # Loop over it, it is way faster than exploiting
+    # numpy array semantics.
     for o in annotations[1:]:
         summary_ids.append(o['summ_id'])
         pyr_scores.append(o['pyr_score'])

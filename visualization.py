@@ -1,3 +1,5 @@
+# Visualization helpers
+
 import numpy as np
 
 from scipy.spatial import ConvexHull
@@ -21,12 +23,14 @@ def make_pytorch_projector(log_dir, embeddings, global_step):
 
 
 def project_pca(embs, t, n_components=2):
+    ''' Projects embeddings using PCA '''
     pca = PCA(n_components=n_components, random_state=42)
     pts = pca.fit_transform(embs)
     return pts[:t], pts[t:]
 
 
 def project_tsne(embs, t):
+    ''' Projects embeddings using t-SNE '''
     tsne = TSNE(n_components=2, perplexity=30, n_iter=5000, verbose=1, random_state=42)
     pts = tsne.fit_transform(embs)
     return pts[:t], pts[t:]
@@ -55,6 +59,7 @@ def plot_hull(ax, title, proj, document_pts, summary_pts):
 
 
 def plot_corr_coeff(ax, topics, scores):
+    ''' Plots bar chart for the topics correlation '''
     def make_indices(w, n):
         if n % 2 == 0:
             idx = w * (np.arange(n//2) + 0.5)
@@ -82,6 +87,9 @@ def plot_corr_coeff(ax, topics, scores):
 
 
 def plot_corr(ax, df, topic_id, m):
+    ''' Plots scatterplot of the correlation between
+    a metric and the Pyramid score.
+    '''
     df_tmp = df[df['Topic ID'] == topic_id]
     x = df_tmp[m].values
     y = df_tmp['Pyramid Score'].values
@@ -94,6 +102,7 @@ def plot_corr(ax, df, topic_id, m):
 
 
 def plot_loss(ax, loss):
+    ''' Plots the loss during training '''
     ax.plot(loss)
     ax.set_ylabel('Loss')
     ax.set_xlabel('Iteration')

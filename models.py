@@ -1,3 +1,11 @@
+# Contains all models that learn a transformation.
+#
+# The API has the following methods:
+# 1. load()      - loads pretrained model
+# 2. save()      - serializes the model to disk
+# 3. transform() - transforms a given tensor using the learned transformation
+# 4. predict()   - outputs a score
+
 import os
 import torch
 import torch.nn as nn

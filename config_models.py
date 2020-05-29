@@ -1,3 +1,5 @@
+# Configuration parameters for all models
+
 CONFIG_MODELS = {
     'TransformSinkhornRegModel': {
         'D_in': 768,
