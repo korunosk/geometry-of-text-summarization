@@ -40,14 +40,14 @@ def plot_hull(ax, title, proj, document_pts, summary_pts):
     :param document_pts:    Projected document points
     :param summary_pts:     Projected summary points
     '''
-    def plot_pts(pts, c, alpha):
-        ax.scatter(pts[:,0], pts[:,1], c=c, alpha=alpha)
+    def plot_pts(pts, alpha):
+        ax.scatter(pts[:,0], pts[:,1], alpha=alpha)
         hull = ConvexHull(pts)
         idx = np.concatenate((hull.vertices, hull.vertices[:1]))
-        ax.plot(pts[idx,0], pts[idx,1], c=c, linestyle='dashed', lw=2)
+        ax.plot(pts[idx,0], pts[idx,1], linestyle='dashed', lw=2)
 
-    plot_pts(document_pts, c='tab:blue', alpha=0.15)
-    plot_pts(summary_pts, c='tab:red', alpha=0.5)
+    plot_pts(document_pts, alpha=0.8)
+    plot_pts(summary_pts, alpha=1)
 
     ax.set_title(title)
     ax.set_xlabel(f'{proj}-0')
