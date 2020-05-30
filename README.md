@@ -10,7 +10,7 @@ The data used for the analysis was obtained from TAC-2008 and TAC-2009. After si
 
 For our models we need the training data shuffled. This caused problems when loading the topic data. To overcome the waiting time, we serialize each part of the topic's data on disk using the `main_split.py` script.
 
-TODO: link to hosted embedded data
+Here you can find all [data](https://drive.google.com/file/d/1Hn76cDt1-ii0y9ah71EYZOyKZJIHjNrF/view?usp=sharing) used for this study.
 
 ## Embeddings
 
